@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 class TrackViewModel(
     trackId: String,
+    tracksInteractor: TracksInteractor
 ) : ViewModel() {
     init {
         Log.d("TEST", "init!: $trackId")
@@ -17,7 +18,11 @@ class TrackViewModel(
     companion object {
         fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val interactor = (this[APPLICATION_KEY] as MyApplication)
+                val interactor = (this[APPLICATION_KEY] as MyApplication).provideTracksInteractor()
+                TrackViewModel(
+                    trackId,
+                    interactor
+                )
             }
         }
 
